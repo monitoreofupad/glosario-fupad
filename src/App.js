@@ -8,63 +8,92 @@ const App = () => {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [selectedTerm, setSelectedTerm] = useState(null);
+  const [showAddForm, setShowAddForm] = useState(false);
 
+  // Filtra los términos basados en la búsqueda, ignorando tildes
   const handleSearch = (e) => {
     const input = e.target.value;
     setQuery(input);
 
     if (input) {
+      const normalizedInput = input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
       const filteredSuggestions = glossaryData.filter((item) =>
-        item.term.toLowerCase().includes(input.toLowerCase())
+        item.term
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase()
+          .includes(normalizedInput)
       );
       setSuggestions(filteredSuggestions);
-
-      // Limpia el término seleccionado si no hay coincidencias
-      if (filteredSuggestions.length === 0) {
-        setSelectedTerm(null);
-      }
+      setSelectedTerm(null); // Limpia la selección anterior
     } else {
       setSuggestions([]);
-      setSelectedTerm(null); // Limpia también el término cuando la búsqueda está vacía
     }
   };
 
   const handleSelectTerm = (term) => {
     setSelectedTerm(term);
     setSuggestions([]);
-    setQuery("");
+    setQuery(""); // Limpia el buscador
+  };
+
+  const toggleAddForm = () => {
+    setShowAddForm(!showAddForm);
   };
 
   return (
     <div className="app-container">
       <header>Glosario FUPAD</header>
       <div className="intro-text">
-        Hola, soy el <strong>Glosario FUPAD</strong>. Estoy aquí para ayudarte a consultar términos oficiales y precisos basados en la terminología de FUPAD. Escribe un término en la barra de búsqueda y te mostraré su significado.
-        <br />
+        Hola, soy el <strong>Glosario FUPAD</strong>. Estoy aquí para ayudarte a consultar términos
+        oficiales y precisos. <br />
         <strong>¿Qué término necesitas consultar?</strong>
       </div>
 
-
+      {/* Barra de búsqueda */}
       <div className="search-bar">
-        <div className="search-input-wrapper">
-          <span className="search-icon">🔍</span>
-          <input
-            type="text"
-            placeholder="Buscar un término..."
-            value={query}
-            onChange={handleSearch}
-          />
-        </div>
+        <input
+          type="text"
+          placeholder="Buscar un término..."
+          value={query}
+          onChange={handleSearch}
+        />
       </div>
 
-      {query && suggestions.length > 0 && (
-        <GlossaryList suggestions={suggestions} onSelect={handleSelectTerm} />
+      {/* Resultados */}
+      <div className="suggestions-container">
+        {suggestions.length > 0 ? (
+          <GlossaryList suggestions={suggestions} onSelect={handleSelectTerm} />
+        ) : query ? (
+          <div className="no-results-message">
+            No encontramos resultados para <strong>"{query}"</strong>.
+            <div>
+              <button className="add-button" onClick={toggleAddForm}>
+                {showAddForm ? "Ocultar formulario" : "Agregar nueva palabra"}
+              </button>
+            </div>
+          </div>
+        ) : null}
+      </div>
+
+      {/* Formulario para agregar palabras */}
+      {showAddForm && (
+        <div className="add-form">
+          <h3>Agregar una nueva palabra</h3>
+          <div className="form-group">
+            <input type="text" placeholder="Término" />
+          </div>
+          <div className="form-group">
+            <textarea placeholder="Definición"></textarea>
+          </div>
+          <div className="form-group">
+            <input type="text" placeholder="Fuente" />
+          </div>
+          <button className="submit-button">Enviar</button>
+        </div>
       )}
 
-      {query && suggestions.length === 0 && (
-        <p className="no-results">No se encontraron resultados</p>
-      )}
-
+      {/* Definición seleccionada */}
       <DefinitionDisplay term={selectedTerm} />
     </div>
   );

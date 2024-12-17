@@ -7,10 +7,10 @@ const GlossaryList = ({ suggestions, onSelect }) => {
         suggestions.map((item, index) => (
           <li
             key={index}
-            className="suggestion-item"
+            className={`suggestion-item ${item.proposed ? "proposed" : ""}`}
             onClick={() => onSelect(item)} // Pasar el objeto seleccionado
           >
-            🔍 {item.term} {/* Mostrar la propiedad 'term' */}
+            🔍 {item.term} {item.proposed && <span>(Propuesta)</span>}
           </li>
         ))
       ) : (
