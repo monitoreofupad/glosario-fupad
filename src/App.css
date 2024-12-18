@@ -46,14 +46,22 @@ header {
   border: 2px solid #ccc;
   border-radius: 25px;
   transition: all 0.3s ease;
+  font-size: 1rem;
 }
 
 .search-bar input:focus {
   border-color: #004f74;
   box-shadow: 0px 4px 8px rgba(0, 79, 116, 0.3);
+  outline: none;
 }
 
 /* Suggestions */
+.suggestions-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .glossary-suggestions {
   width: 70%;
   background: #fff;
@@ -62,35 +70,43 @@ header {
   margin-top: 5px;
   max-height: 300px;
   overflow-y: auto;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .suggestion-item {
-  padding: 10px;
+  padding: 12px 15px;
   cursor: pointer;
+  transition: background 0.3s, color 0.3s;
 }
 
 .suggestion-item:hover {
   background-color: #004f74;
   color: white;
+  font-weight: bold;
 }
 
+/* No Results Message */
 .no-results-message {
   text-align: center;
-  margin: 20px 0;
-  padding: 15px;
+  margin-top: 20px;
+  padding: 20px;
   background-color: #f8f9fa;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  width: 70%;
+  border-radius: 10px;
+  color: #555;
+  font-size: 1rem;
 }
 
 .add-button {
+  margin-top: 10px;
   background-color: #004f74;
   color: white;
-  padding: 8px 12px;
+  padding: 10px 20px;
   border-radius: 5px;
   border: none;
   cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
 .add-button:hover {
@@ -105,10 +121,13 @@ header {
   background: #fff;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
 .add-form h3 {
   color: #004f74;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
 }
 
 .form-group {
@@ -121,6 +140,12 @@ header {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  font-size: 1rem;
+}
+
+.form-group textarea {
+  resize: none;
+  height: 80px;
 }
 
 .submit-button {
@@ -130,8 +155,91 @@ header {
   border-radius: 5px;
   border: none;
   cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
 .submit-button:hover {
   background-color: #003652;
+}
+
+/* Definition Display */
+.definition-display {
+  max-width: 70%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  line-height: 1.6;
+}
+
+.definition-display h2 {
+  color: #004f74;
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.definition-display .highlighted-word {
+  color: #004f74;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.definition-display .highlighted-word:hover {
+  color: #002642;
+}
+
+.definition-display .source {
+  margin-top: 15px;
+  font-style: italic;
+  color: #777;
+}
+
+.no-term-message {
+  text-align: center;
+  color: #777;
+  font-size: 1.1rem;
+  margin-top: 20px;
+}
+
+/* Links */
+.link {
+  color: #004f74;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.link:hover {
+  color: #002642;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #004f74;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .search-bar input,
+  .glossary-suggestions,
+  .add-form,
+  .definition-display {
+    width: 90%;
+  }
+
+  header {
+    font-size: 1.5rem;
+  }
 }

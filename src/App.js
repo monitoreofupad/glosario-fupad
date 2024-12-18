@@ -10,13 +10,16 @@ const App = () => {
   const [selectedTerm, setSelectedTerm] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
 
-  // Filtra los términos basados en la búsqueda, ignorando tildes
+  // Filtra los términos basados en la búsqueda
   const handleSearch = (e) => {
     const input = e.target.value;
     setQuery(input);
 
     if (input) {
-      const normalizedInput = input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+      const normalizedInput = input
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
       const filteredSuggestions = glossaryData.filter((item) =>
         item.term
           .normalize("NFD")
@@ -25,24 +28,41 @@ const App = () => {
           .includes(normalizedInput)
       );
       setSuggestions(filteredSuggestions);
-      setSelectedTerm(null); // Limpia la selección anterior
+      setSelectedTerm(null);
     } else {
       setSuggestions([]);
     }
   };
 
+  // Maneja la selección de un término
   const handleSelectTerm = (term) => {
     setSelectedTerm(term);
     setSuggestions([]);
-    setQuery(""); // Limpia el buscador
+    setQuery("");
   };
 
+  // Maneja el clic en palabras relacionadas
+  const handleWordClick = (word) => {
+    const matchedTerm = glossaryData.find(
+      (item) =>
+        item.term
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase() === word.toLowerCase()
+    );
+    if (matchedTerm) {
+      setSelectedTerm(matchedTerm);
+    }
+  };
+
+  // Alternar formulario
   const toggleAddForm = () => {
     setShowAddForm(!showAddForm);
   };
 
   return (
     <div className="app-container">
+      {/* Encabezado */}
       <header>Glosario FUPAD</header>
       <div className="intro-text">
         Hola, soy el <strong>Glosario FUPAD</strong>. Estoy aquí para ayudarte a consultar términos
@@ -94,7 +114,18 @@ const App = () => {
       )}
 
       {/* Definición seleccionada */}
-      <DefinitionDisplay term={selectedTerm} />
+      {selectedTerm && (
+        <DefinitionDisplay
+        term={selectedTerm}
+        glossary={glossaryData}
+        onWordClick={(clickedTerm) => {
+          const matchedTerm = glossaryData.find(
+            (item) => item.term.toLowerCase() === clickedTerm.toLowerCase()
+          );
+          if (matchedTerm) setSelectedTerm(matchedTerm);
+        }}
+      />
+      )}
     </div>
   );
 };

@@ -1,37 +1,82 @@
 import React from "react";
 
-const DefinitionDisplay = ({ term }) => {
-  // Función que maneja saltos de línea y convierte enlaces en clicables
-  const parseText = (text) => {
+const DefinitionDisplay = ({ term, glossary, onWordClick }) => {
+  // Función que resalta palabras relacionadas y convierte enlaces
+  const highlightTerms = (text, glossary, currentTerm) => {
     if (!text) return null;
 
-    const urlRegex = /(https?:\/\/[^\s]+)/g; // Detecta URLs
-    return text.split("\n").map((line, index) => (
-      <span key={index}>
-        {line.split(urlRegex).map((part, idx) =>
-          part.match(urlRegex) ? (
-            <a
-              key={idx}
-              href={part}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: "#004f74",
-                textDecoration: "underline",
-                transition: "color 0.3s ease",
-              }}
-              onMouseEnter={(e) => (e.target.style.color = "#002a40")}
-              onMouseLeave={(e) => (e.target.style.color = "#004f74")}
-            >
-              {part}
-            </a>
-          ) : (
-            part
-          )
-        )}
-        <br />
-      </span>
-    ));
+    return text.split(" ").map((word, index) => {
+      const cleanWord = word.replace(/[.,]/g, ""); // Elimina puntuación
+      const isRelated =
+        cleanWord.toLowerCase() !== currentTerm.toLowerCase() && // No resaltar el término actual
+        glossary.some((item) => item.term.toLowerCase() === cleanWord.toLowerCase());
+
+      // Detecta si es un enlace URL
+      if (word.match(/(https?:\/\/[^\s]+)/g)) {
+        return (
+          <a
+            key={index}
+            href={word}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: "#004f74",
+              textDecoration: "underline",
+              transition: "color 0.3s ease",
+            }}
+            onMouseEnter={(e) => (e.target.style.color = "#002a40")}
+            onMouseLeave={(e) => (e.target.style.color = "#004f74")}
+          >
+            {word}{" "}
+          </a>
+        );
+      }
+
+      // Resalta palabras relacionadas
+      return isRelated ? (
+        <span
+          key={index}
+          className="highlighted-word"
+          onClick={() => onWordClick(cleanWord)}
+          style={{
+            color: "#004f74",
+            fontWeight: "bold",
+            cursor: "pointer",
+            transition: "color 0.3s ease",
+          }}
+          onMouseEnter={(e) => (e.target.style.color = "#002a40")}
+          onMouseLeave={(e) => (e.target.style.color = "#004f74")}
+        >
+          {word}{" "}
+        </span>
+      ) : (
+        word + " "
+      );
+    });
+  };
+
+  // Función para convertir enlaces en la fuente
+  const parseSource = (source) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return source.split(urlRegex).map((part, index) => {
+      if (part.match(urlRegex)) {
+        return (
+          <a
+            key={index}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: "#004f74",
+              textDecoration: "underline",
+            }}
+          >
+            {part}
+          </a>
+        );
+      }
+      return part;
+    });
   };
 
   return (
@@ -41,17 +86,22 @@ const DefinitionDisplay = ({ term }) => {
           {/* Título del término */}
           <h2>{term.term}</h2>
 
-          {/* Definición con manejo de saltos de línea y enlaces */}
-          <div className="definition-content">{parseText(term.definition)}</div>
+          {/* Definición con resaltado de términos */}
+          <div className="definition-content">
+            {highlightTerms(term.definition, glossary, term.term)}
+          </div>
 
-          {/* Fuente estilizada */}
+          {/* Fuente con manejo de enlaces */}
           {term.source && (
-            <p style={{ fontStyle: "italic", marginTop: "15px", color: "#777" }}>
-            {parseText(term.source.replace(/^Fuente:\s*/, ""))}
+            <p className="source" style={{ marginTop: "15px", color: "#777", fontStyle: "italic" }}>
+              {parseSource(term.source)}
             </p>
-        )}        </>
+          )}
+        </>
       ) : (
-        <p className="no-term">Selecciona un término para ver su definición.</p>
+        <div className="no-term-message" style={{ textAlign: "center", color: "#777" }}>
+          Selecciona un término para ver su definición.
+        </div>
       )}
     </div>
   );
