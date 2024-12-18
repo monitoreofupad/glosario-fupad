@@ -198,11 +198,23 @@ header {
   color: #777;
 }
 
+.definition-display p {
+  margin: 10px 0; /* Espaciado entre párrafos */
+  line-height: 1.8;
+}
+
+/* Mensaje cuando no se selecciona un término */
 .no-term-message {
   text-align: center;
-  color: #777;
-  font-size: 1.1rem;
+  color: #004f74;
+  font-size: 1.2rem;
+  font-weight: bold;
   margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #004f74;
+  border-radius: 8px;
+  background-color: #e6f7ff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Links */

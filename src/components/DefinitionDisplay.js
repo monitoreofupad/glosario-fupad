@@ -1,58 +1,59 @@
 import React from "react";
 
 const DefinitionDisplay = ({ term, glossary, onWordClick }) => {
-  // Función que resalta palabras relacionadas y convierte enlaces
-  const highlightTerms = (text, glossary, currentTerm) => {
+  // Función que resalta palabras relacionadas, convierte enlaces y maneja saltos de línea
+  const highlightTermsWithNewLines = (text, glossary, currentTerm) => {
     if (!text) return null;
 
-    return text.split(" ").map((word, index) => {
-      const cleanWord = word.replace(/[.,]/g, ""); // Elimina puntuación
-      const isRelated =
-        cleanWord.toLowerCase() !== currentTerm.toLowerCase() && // No resaltar el término actual
-        glossary.some((item) => item.term.toLowerCase() === cleanWord.toLowerCase());
+    return text.split("\n").map((line, lineIndex) => (
+      <p key={lineIndex} style={{ margin: "0 0 10px 0" }}>
+        {line.split(" ").map((word, index) => {
+          const cleanWord = word.replace(/[.,]/g, ""); // Elimina puntuación
+          const isRelated =
+            cleanWord.toLowerCase() !== currentTerm.toLowerCase() && // No resaltar el término actual
+            glossary.some((item) => item.term.toLowerCase() === cleanWord.toLowerCase());
 
-      // Detecta si es un enlace URL
-      if (word.match(/(https?:\/\/[^\s]+)/g)) {
-        return (
-          <a
-            key={index}
-            href={word}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: "#004f74",
-              textDecoration: "underline",
-              transition: "color 0.3s ease",
-            }}
-            onMouseEnter={(e) => (e.target.style.color = "#002a40")}
-            onMouseLeave={(e) => (e.target.style.color = "#004f74")}
-          >
-            {word}{" "}
-          </a>
-        );
-      }
+          // Detecta si es un enlace URL
+          if (word.match(/(https?:\/\/[^\s]+)/g)) {
+            return (
+              <a
+                key={index}
+                href={word}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  color: "#004f74",
+                  textDecoration: "underline",
+                }}
+              >
+                {word}{" "}
+              </a>
+            );
+          }
 
-      // Resalta palabras relacionadas
-      return isRelated ? (
-        <span
-          key={index}
-          className="highlighted-word"
-          onClick={() => onWordClick(cleanWord)}
-          style={{
-            color: "#004f74",
-            fontWeight: "bold",
-            cursor: "pointer",
-            transition: "color 0.3s ease",
-          }}
-          onMouseEnter={(e) => (e.target.style.color = "#002a40")}
-          onMouseLeave={(e) => (e.target.style.color = "#004f74")}
-        >
-          {word}{" "}
-        </span>
-      ) : (
-        word + " "
-      );
-    });
+          // Resalta palabras relacionadas
+          return isRelated ? (
+            <span
+              key={index}
+              className="highlighted-word"
+              onClick={() => onWordClick(cleanWord)}
+              style={{
+                color: "#004f74",
+                fontWeight: "bold",
+                cursor: "pointer",
+                transition: "color 0.3s ease",
+              }}
+              onMouseEnter={(e) => (e.target.style.color = "#002a40")}
+              onMouseLeave={(e) => (e.target.style.color = "#004f74")}
+            >
+              {word}{" "}
+            </span>
+          ) : (
+            word + " "
+          );
+        })}
+      </p>
+    ));
   };
 
   // Función para convertir enlaces en la fuente
@@ -86,9 +87,9 @@ const DefinitionDisplay = ({ term, glossary, onWordClick }) => {
           {/* Título del término */}
           <h2>{term.term}</h2>
 
-          {/* Definición con resaltado de términos */}
+          {/* Definición con saltos de línea y resaltado de términos */}
           <div className="definition-content">
-            {highlightTerms(term.definition, glossary, term.term)}
+            {highlightTermsWithNewLines(term.definition, glossary, term.term)}
           </div>
 
           {/* Fuente con manejo de enlaces */}
