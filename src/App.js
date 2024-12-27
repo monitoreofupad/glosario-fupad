@@ -87,31 +87,34 @@ const App = () => {
         ) : query ? (
           <div className="no-results-message">
             No encontramos resultados para <strong>"{query}"</strong>.
-            <div>
-              <button className="add-button" onClick={toggleAddForm}>
+            {/*<div>
+              *<button className="add-button" onClick={toggleAddForm}>
                 {showAddForm ? "Ocultar formulario" : "Agregar nueva palabra"}
-              </button>
-            </div>
+              </button>*
+            </div>*/}
           </div>
         ) : null}
       </div>
 
-      {/* Formulario para agregar palabras */}
-      {showAddForm && (
-        <div className="add-form">
-          <h3>Agregar una nueva palabra</h3>
-          <div className="form-group">
-            <input type="text" placeholder="Término" />
-          </div>
-          <div className="form-group">
-            <textarea placeholder="Definición"></textarea>
-          </div>
-          <div className="form-group">
-            <input type="text" placeholder="Fuente" />
-          </div>
-          <button className="submit-button">Enviar</button>
-        </div>
-      )}
+  {/*
+
+  {showAddForm && (
+    <div className="add-form">
+      <h3>Agregar una nueva palabra</h3>
+      <div className="form-group">
+        <input type="text" placeholder="Término" />
+      </div>
+      <div className="form-group">
+        <textarea placeholder="Definición"></textarea>
+      </div>
+      <div className="form-group">
+        <input type="text" placeholder="Fuente" />
+      </div>
+      <button className="submit-button">Enviar</button>
+    </div>
+  )}
+*/}
+
 
       {/* Definición seleccionada */}
       {selectedTerm && (
