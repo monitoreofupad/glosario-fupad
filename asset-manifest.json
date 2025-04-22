@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/glosario-fupad/static/css/main.49266cfa.css",
+    "main.js": "/glosario-fupad/static/js/main.3f7ef7e8.js",
+    "static/js/488.5d0b2b9e.chunk.js": "/glosario-fupad/static/js/488.5d0b2b9e.chunk.js",
+    "index.html": "/glosario-fupad/index.html",
+    "main.49266cfa.css.map": "/glosario-fupad/static/css/main.49266cfa.css.map",
+    "main.3f7ef7e8.js.map": "/glosario-fupad/static/js/main.3f7ef7e8.js.map",
+    "488.5d0b2b9e.chunk.js.map": "/glosario-fupad/static/js/488.5d0b2b9e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.49266cfa.css",
+    "static/js/main.3f7ef7e8.js"
+  ]
+}
