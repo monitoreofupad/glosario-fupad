@@ -2,7 +2,7 @@
   "name": "glosario-fupad",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://amayorga2408.github.io/glosario-fupad",
+  "homepage": "https://monitoreofupad.github.io/glosario-fupad",
   "dependencies": {
     "cra-template": "1.2.0",
     "react": "^19.0.0",
