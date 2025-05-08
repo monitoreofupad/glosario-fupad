@@ -79,7 +79,7 @@ function App() {
     await postToScript([
       id, 'new_term', nuevoTermino, nuevaDefinicion, '', nuevaFuente, new Date().toLocaleString(), 'Pendiente'
     ]);
-    showConfirmation('✅  Solicitud de nueva palabra enviada.');
+    showConfirmation('✅  Solicitud de nueva palabra en proceso de Validación.');
     setNuevoTermino(''); setNuevaDefinicion(''); setNuevaFuente('');
     setShowAddForm(false);
   };
@@ -93,7 +93,7 @@ function App() {
     await postToScript([
       id, 'adjust_term', adjustTerm, adjustComment, adjustFuente, '', new Date().toLocaleString(), 'Pendiente'
     ]);
-    showConfirmation('✅ Ajuste enviado.');
+    showConfirmation('✅ Ajuste en Proceso de validación.');
     setAdjustComment(''); setAdjustFuente('');
     setShowAdjustmentForm(false);
   };
@@ -205,7 +205,7 @@ function App() {
             <div className="no-results-actions">
               <button className="btn primary"
                 onClick={() => { setNuevoTermino(searchTerm); setShowAddForm(true); }}>
-                Enviar para aprobación
+                Agregar Palabra
               </button>
               <button className="btn secondary"
                 onClick={handleRequestDefinition}>
