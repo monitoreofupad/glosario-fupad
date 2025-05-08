@@ -35,12 +35,16 @@ function App() {
 
   // ------------------- Cargar datos del glosario desde GitHub -------------------
   useEffect(() => {
-    fetch(`https://raw.githubusercontent.com/monitoreofupad/glosario-fupad/main/src/data/glossary.json?cacheBust=${Date.now()}`)
-      .then(response => response.text()) // Primero obtenemos texto crudo
-      .then(text => JSON.parse(decodeURIComponent(escape(text)))) // Reconvertimos a UTF-8 y luego parseamos
+    fetch(`https://raw.githubusercontent.com/monitoreofupad/glosario-fupad/main/src/data/glossary.json?cacheBust=${Date.now()}`, {
+      headers: {
+        'Accept': 'application/json',
+      }
+    })
+      .then(response => response.json())
       .then(data => setGlossaryData(data))
       .catch(error => console.error('Error al cargar el glosario:', error));
   }, []);
+  
 
   // ------------------- Generador de IDs únicos -------------------
   const generarID = () => new Date().toISOString();
