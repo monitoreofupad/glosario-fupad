@@ -1656,7 +1656,7 @@
   },
   {
     "term": "prueba 2",
-    "definition": "PRUEBA 2 JUNIO 12",
-    "source": "TEMPORAL"
+    "definition": "PRUEBA 3 JUNIO 12",
+    "source": "TEMP 3"
   }
 ]
