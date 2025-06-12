@@ -1658,5 +1658,10 @@
     "term": "prueba 2",
     "definition": "PRUEBA 3 JUNIO 12",
     "source": "TEMP 3"
+  },
+  {
+    "term": "glosario",
+    "definition": "PRUEBA",
+    "source": "PRUEBA"
   }
 ]
