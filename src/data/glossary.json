@@ -1653,5 +1653,10 @@
     "term": "prueba2",
     "definition": "prueba 2 junio 12",
     "source": "asdfasd"
+  },
+  {
+    "term": "prueba 2",
+    "definition": "PRUEBA 2 JUNIO 12",
+    "source": "TEMPORAL"
   }
 ]
